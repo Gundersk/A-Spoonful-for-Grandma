@@ -2,6 +2,11 @@ name: Ассет или замена графики
 description: Предложить новый спрайт, анимацию или замену
 title: "[Графика] "
 body:
+  - type: input
+    id: yougile
+    attributes:
+      label: Карточка YouGile
+      description: Основная задача ведётся в YouGile; здесь техническое обсуждение. Укажите URL или ID, если карточка уже есть.
   - type: textarea
     id: target
     attributes:
