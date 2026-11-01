@@ -4,6 +4,7 @@
 
 | Набор | Исходник в репозитории | Использование / ограничения |
 |---|---|---|
+| Переноска вниз S | art/sources/grandma/south-carry/sheet.png, PROMPT.md, frames.png | Новый цельный AI-generated лист, 4 фазы, только целокадровая нарезка/общий масштаб. Игровой carry_walk_S_generated; исходные carry_walk_S/carry_idle_S и walk_S сохранены. |
 | Новая бабушка W/SW и перенос | art/sources/grandma/sheet_*.png | Цельные AI-generated листы; из них нарезаны generated-анимации. E/SE те же кадры с зеркалом в player.js. Остальные направления/idle из ранее подготовленного набора, его игровой оригинал сохранён в game/images. |
 | Кухня до/после отделения стола | art/sources/kitchen/kitchen_original.png, kitchen_without_table_v2.png | Текущий KitchenMockup без стола; остальные станции пока в фоне. Исторические другие генерации не нужны для продолжения. |
 | Отдельный стол | art/sources/kitchen/serving_table.png | ServingTableVisual. Позицию/масштаб согласовывать с блокером и Surface. |

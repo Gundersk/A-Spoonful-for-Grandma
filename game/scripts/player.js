@@ -18,7 +18,8 @@ export class Player {
       this.facing = directions[(Math.round(Math.atan2(vy,vx) / (Math.PI/4)) + 8) % 8];
     }
     let name = `${carrying ? 'carry_' : ''}${moving ? 'walk' : 'idle'}_${this.facing}`;
-    const generated = moving && ['W','E','SW','SE'].includes(this.facing);
+    const generated = moving && (['W','E','SW','SE'].includes(this.facing)
+      || (carrying && this.facing === 'S'));
     if (generated) name += '_generated';
     // E mirrors the new W, NE mirrors NW, SE mirrors the new SW.
     // scripting property: mirror its native world-instance width instead.
