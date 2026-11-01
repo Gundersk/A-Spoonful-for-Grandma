@@ -1,6 +1,11 @@
 name: Задача разработки или ошибка
 description: Согласовать изменение с проверяемым результатом
 body:
+  - type: input
+    id: yougile
+    attributes:
+      label: Карточка YouGile
+      description: Основная задача ведётся в YouGile; здесь техническое обсуждение. Укажите URL или ID, если карточка уже есть.
   - type: textarea
     id: scope
     attributes:
