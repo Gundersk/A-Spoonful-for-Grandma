@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/liauw-media/construct3-mcp.git",
+  "commit": "1eb4973e0d032fba794c719b1e3971cf71e188a3",
+  "version": "1.10.0",
+  "patch": "collision-poly.patch",
+  "patchSha256": "2238fb47f96816b5ff7105f4958c2f5acd24fe696596adfbe6fc1e58dba6b1e1"
+}

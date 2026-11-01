@@ -1,0 +1,350 @@
+{
+	"projectFormatVersion": 1,
+	"savedWithRelease": 50603,
+	"name": "OneMoreSpoon",
+	"runtime": "c3",
+	"useWorker": "auto",
+	"bundleAddons": false,
+	"usedAddons": [
+		{
+			"type": "plugin",
+			"id": "Keyboard",
+			"name": "Клавиатура",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "Sprite",
+			"name": "Спрайт",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "Text",
+			"name": "Текст",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "behavior",
+			"id": "EightDir",
+			"name": "8 Направлений",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "behavior",
+			"id": "solid",
+			"name": "Твёрдый",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "Mouse",
+			"name": "Mouse",
+			"author": "Scirra",
+			"bundled": false
+		}
+	],
+	"uniqueId": "x2ffexyj966",
+	"objectTypes": {
+		"items": [
+			"KitchenMockup",
+			"CollisionBlocker",
+			"PlayerBody",
+			"Grandma",
+			"PantryZone",
+			"SinkZone",
+			"OutdoorZone",
+			"LivingRoomZone",
+			"PotLabel",
+			"HudPanel",
+			"HudStats",
+			"HudHint",
+			"HudMessage",
+			"Keyboard",
+			"BuckwheatContainerVisual",
+			"PotVisual",
+			"BurnerSlot_1",
+			"BurnerSlot_2",
+			"ServingSlot_1",
+			"CounterZone",
+			"Mouse",
+			"ServingTableVisual",
+			"CounterSurface",
+			"StoveSurface",
+			"ServingSurface"
+		],
+		"subfolders": []
+	},
+	"functionsName": "Функции",
+	"autosaveData": null,
+	"containers": [],
+	"families": {
+		"items": [],
+		"subfolders": []
+	},
+	"layouts": {
+		"items": [
+			"Kitchen"
+		],
+		"subfolders": []
+	},
+	"eventSheets": {
+		"items": [
+			"Bootstrap"
+		],
+		"subfolders": []
+	},
+	"rootFileFolders": {
+		"script": {
+			"items": [
+				{
+					"name": "camera.js",
+					"type": "application/javascript",
+					"sid": 813097621506284,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "data.js",
+					"type": "application/javascript",
+					"sid": 835218546992637,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "hud.js",
+					"type": "application/javascript",
+					"sid": 429228274036487,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "input.js",
+					"type": "application/javascript",
+					"sid": 149399165441906,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "interactions.js",
+					"type": "application/javascript",
+					"sid": 233015916420803,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "main.js",
+					"type": "application/javascript",
+					"sid": 392329728268005,
+					"script-info": {
+						"purpose": "main"
+					}
+				},
+				{
+					"name": "player.js",
+					"type": "application/javascript",
+					"sid": 998888938608717,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "state.js",
+					"type": "application/javascript",
+					"sid": 673001613345378,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "economy.js",
+					"type": "application/javascript",
+					"sid": 407835666057717,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "throw.js",
+					"type": "application/javascript",
+					"sid": 449717620711956,
+					"script-info": {
+						"purpose": "none"
+					}
+				}
+			],
+			"subfolders": []
+		},
+		"sound": {
+			"items": [],
+			"subfolders": []
+		},
+		"music": {
+			"items": [],
+			"subfolders": []
+		},
+		"video": {
+			"items": [],
+			"subfolders": []
+		},
+		"font": {
+			"items": [],
+			"subfolders": []
+		},
+		"icon": {
+			"items": [
+				{
+					"name": "Иконка-16.png",
+					"type": "image/png",
+					"sid": 453353996821338,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-32.png",
+					"type": "image/png",
+					"sid": 910946444140004,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-64.png",
+					"type": "image/png",
+					"sid": 298586865847173,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-128.png",
+					"type": "image/png",
+					"sid": 807916884585608,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-256.png",
+					"type": "image/png",
+					"sid": 660442730116937,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-512.png",
+					"type": "image/png",
+					"sid": 101697957646257,
+					"icon-info": {
+						"purpose": "app-icon"
+					}
+				},
+				{
+					"name": "Иконка-загрузки.png",
+					"type": "image/png",
+					"sid": 283987233385653,
+					"icon-info": {
+						"purpose": "loading-logo"
+					}
+				}
+			],
+			"subfolders": []
+		},
+		"general": {
+			"items": [],
+			"subfolders": []
+		}
+	},
+	"timelines": {
+		"items": [
+			"Шкала 1"
+		],
+		"subfolders": [
+			{
+				"items": [],
+				"subfolders": []
+			}
+		]
+	},
+	"flowcharts": {
+		"items": [
+			"Блок-схема 1"
+		],
+		"subfolders": []
+	},
+	"models3d": {
+		"items": [],
+		"subfolders": []
+	},
+	"properties": {
+		"description": "Учебный прототип ER-Studio. Временный макет кухни; отдельные ассеты в подготовке.",
+		"version": "1.0.0.0",
+		"autoIncrementVersion": false,
+		"author": "",
+		"authorEmail": "",
+		"authorWebsite": "",
+		"appId": "",
+		"saveLLMContextFile": true,
+		"pixelRounding": true,
+		"fov": 0.7853981633974483,
+		"useLoaderLayout": false,
+		"fullscreenMode": "letterbox-integer-scale",
+		"fullscreenQuality": "low",
+		"viewportFit": "auto",
+		"backgroundColor": [
+			0,
+			0,
+			0,
+			0
+		],
+		"splashColor": [
+			1,
+			1,
+			1,
+			0
+		],
+		"useThemeColor": false,
+		"themeColor": [
+			1,
+			1,
+			1,
+			0
+		],
+		"orientations": "landscape",
+		"webgpu": "auto",
+		"multitexturing": "auto",
+		"gpuPreference": "high-performance",
+		"framerateMode": "vsync",
+		"fixedFramerate": 30,
+		"sampling": "nearest",
+		"downscaling": "medium",
+		"renderingMode": "auto",
+		"anisotropicFiltering": "auto",
+		"zNear": 10,
+		"zFar": 100000,
+		"maxSpriteSheetSize": 2048,
+		"loaderStyle": "splash",
+		"preloadSounds": true,
+		"uidAllocationMode": "increment",
+		"zAxisScale": "regular",
+		"cordovaiOSScheme": "app",
+		"cordovaAndroidScheme": "https",
+		"exportFileStructure": "folders",
+		"scriptsType": "module"
+	},
+	"viewportWidth": 960,
+	"viewportHeight": 540,
+	"firstLayout": null
+}

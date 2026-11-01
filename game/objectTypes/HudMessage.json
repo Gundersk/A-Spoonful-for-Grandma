@@ -1,0 +1,10 @@
+{
+	"name": "HudMessage",
+	"plugin-id": "Text",
+	"sid": 833699447638580,
+	"isGlobal": false,
+	"editorNewInstanceIsReplica": true,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": []
+}

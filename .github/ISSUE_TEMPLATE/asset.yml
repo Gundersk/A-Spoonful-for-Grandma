@@ -1,0 +1,23 @@
+name: Ассет или замена графики
+description: Предложить новый спрайт, анимацию или замену
+title: "[Графика] "
+body:
+  - type: textarea
+    id: target
+    attributes:
+      label: Что предлагается
+      description: Имя объекта/анимации, что заменить и почему. Статус — Предложено.
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Файлы и превью
+      description: Прикрепите PNG, превью, при необходимости исходник архивом. Размеры, кадры, Origin, порядок анимации.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Происхождение и готовность
+      description: Автор/ИИ/ссылка и права; что готово, что доделать. После интеграции добавить commit/PR.

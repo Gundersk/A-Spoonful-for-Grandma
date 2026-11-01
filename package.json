@@ -1,0 +1,16 @@
+{
+  "name": "a-spoonful-for-grandma",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node tools/checks/project.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "docs:check": "node tools/checks/docs.mjs",
+    "assets": "node tools/checks/assets.mjs",
+    "mcp:check": "node tools/mcp/probe.mjs"
+  }
+}

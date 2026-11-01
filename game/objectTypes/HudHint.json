@@ -1,0 +1,10 @@
+{
+	"name": "HudHint",
+	"plugin-id": "Text",
+	"sid": 735807890756433,
+	"isGlobal": false,
+	"editorNewInstanceIsReplica": true,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": []
+}

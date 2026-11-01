@@ -1,0 +1,215 @@
+diff --git a/src/construct3/analyzers/integrity.ts b/src/construct3/analyzers/integrity.ts
+index 06ec5cf..dcc9a6f 100644
+--- a/src/construct3/analyzers/integrity.ts
++++ b/src/construct3/analyzers/integrity.ts
+@@ -130,6 +130,7 @@ export async function validateProjectIntegrity(
+   checkFileExistence(registeredLayouts, layouts, layoutFailures, 'layouts', reader, errors, warnings, unscannedFiles);
+   checkFileExistence(registeredFamilies, families, familyFailures, 'families', reader, errors, warnings, unscannedFiles);
+   checkRequiredFieldsObjects(objects, errors);
++  checkCollisionPolygons(objects, errors);
+   checkRequiredFieldsSheets(eventSheets, errors);
+   checkRequiredFieldsLayouts(layouts, errors);
+   checkNameConsistency(objects, eventSheets, layouts, errors);
+@@ -180,7 +181,7 @@ export async function validateProjectIntegrity(
+   // duplicate-object-name, family-plugin-mismatch, file-name-case-mismatch,
+   // duplicate-layer-name, missing-behavior-entry, missing-behavior-or-variable,
+   // frame-image, hierarchy-link, orphaned-image, duplicate-function-name
+-  const checksRun = 29;
++  const checksRun = 30;
+ 
+   return {
+     valid: errors.length === 0 && unscannedFiles.length === 0,
+@@ -301,6 +302,44 @@ function checkFileExistence(
+ 
+ // ─── Check 2: Required Fields ────────────────────────────────
+ 
++/** Check every stored polygon, including frames in animation subfolders. */
++function checkCollisionPolygons(objects: Map<string, ObjectType>, errors: IntegrityIssue[]): void {
++  function check(frame: unknown, entity: string): void {
++    if (!isRecord(frame)) return;
++    // Editor-saved rectangular frames can omit collisionPoly entirely, even
++    // with useCollisionPoly:true. An explicit empty polygon is different.
++    if (frame.collisionPoly === undefined) return;
++    const points = isRecord(frame.collisionPoly) ? frame.collisionPoly.points : undefined;
++    let reason = '';
++    if (!Array.isArray(points) || points.length < 6 || points.length % 2 !== 0) {
++      reason = 'requires at least three (x,y) pairs (an even array of at least six numbers)';
++    } else if (!points.every(p => typeof p === 'number' && Number.isFinite(p))) {
++      reason = 'coordinates must be finite numbers';
++    } else {
++      const vertices = Array.from({ length: points.length / 2 }, (_, i) => [points[2 * i], points[2 * i + 1]]);
++      const distinct = [...new Map(vertices.map(p => [JSON.stringify(p), p])).values()];
++      if (distinct.length < 3) reason = 'requires at least three distinct vertices';
++      else {
++        const [a, b] = distinct;
++        if (!distinct.some(c => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]) !== 0)) {
++          reason = 'vertices are collinear (zero-area polygon)';
++        }
++      }
++    }
++    if (reason) errors.push({ check: 'collision-poly', entity,
++      message: `Invalid collisionPoly.points: ${reason}.`,
++      suggestion: 'Restore the intended polygon; a rectangular frame uses [0,0,1,0,1,1,0,1].' });
++  }
++  for (const [name, obj] of objects) {
++    if (obj['plugin-id'] === 'Sprite') {
++      for (const anim of everyAnimation<{ name?: unknown; frames?: unknown }>(obj.animations)) {
++        if (Array.isArray(anim.frames)) anim.frames.forEach((frame, i) =>
++          check(frame, `objectTypes/${name}/animation:${String(anim.name)}/frame:${i}`));
++      }
++    } else if (obj['plugin-id'] === 'TiledBg') check(obj.image, `objectTypes/${name}/image`);
++  }
++}
++
+ function checkRequiredFieldsObjects(
+   objects: Map<string, ObjectType>,
+   errors: IntegrityIssue[]
+diff --git a/src/construct3/templates.ts b/src/construct3/templates.ts
+index 218422f..d58e8ea 100644
+--- a/src/construct3/templates.ts
++++ b/src/construct3/templates.ts
+@@ -187,7 +187,7 @@ export function createTiledBgObject(name: string, sid: number, imageSpriteId?: n
+       fileType: 'image/png',
+       tag: '',
+       useCollisionPoly: true,
+-      collisionPoly: { points: [] },
++      collisionPoly: { points: [0, 0, 1, 0, 1, 1, 0, 1] },
+       ...(imageSpriteId !== undefined ? { imageSpriteId } : {}),
+     },
+   };
+@@ -556,7 +556,8 @@ export function createAnimationFrame(
+     duration: 1,
+     tag: '',
+     useCollisionPoly: true,
+-    collisionPoly: { points: [] },
++    // Construct deserializes this polygon even on non-colliding instances.
++    collisionPoly: { points: [0, 0, 1, 0, 1, 1, 0, 1] },
+     ...(imageSpriteId !== undefined ? { imageSpriteId } : {}),
+   };
+ }
+diff --git a/test/construct3/integrity.test.ts b/test/construct3/integrity.test.ts
+index 17d286c..3271fc6 100644
+--- a/test/construct3/integrity.test.ts
++++ b/test/construct3/integrity.test.ts
+@@ -63,7 +63,7 @@ describe('validateProjectIntegrity', () => {
+     expect(result.valid).toBe(true);
+     expect(result.complete).toBe(true);
+     expect(result.summary.errors).toBe(0);
+-    expect(result.summary.checksRun).toBe(29);
++    expect(result.summary.checksRun).toBe(30);
+     expect(result.summary.entitiesScanned).toBeGreaterThan(0);
+   });
+ 
+diff --git a/test/construct3/templates.test.ts b/test/construct3/templates.test.ts
+index 2da01a2..a501788 100644
+--- a/test/construct3/templates.test.ts
++++ b/test/construct3/templates.test.ts
+@@ -33,7 +33,7 @@ describe('Object Templates', () => {
+     expect(obj.animations!.items[0].sid).toBe(200);
+     expect(obj.animations!.items[0].name).toBe('Animation 1');
+     expect(obj.animations!.items[0].frames).toHaveLength(1);
+-    expect(obj.animations!.items[0].frames[0].collisionPoly).toEqual({ points: [] });
++    expect(obj.animations!.items[0].frames[0].collisionPoly).toEqual({ points: [0, 0, 1, 0, 1, 1, 0, 1] });
+     expect(obj.instanceVariables).toEqual([]);
+     expect(obj.behaviorTypes).toEqual([]);
+     expect(obj.effectTypes).toEqual([]);
+@@ -67,7 +67,7 @@ describe('Object Templates', () => {
+     expect(obj.sid).toBe(100);
+     expect((obj as any).image).toBeDefined();
+     expect((obj as any).image.width).toBe(100);
+-    expect((obj as any).image.collisionPoly).toEqual({ points: [] });
++    expect((obj as any).image.collisionPoly).toEqual({ points: [0, 0, 1, 0, 1, 1, 0, 1] });
+   });
+ 
+   it('createTiledBgObject passes through imageSpriteId', () => {
+@@ -244,7 +244,7 @@ describe('Animation Templates', () => {
+     expect(frame.fileType).toBe('image/png');
+     expect(frame.duration).toBe(1);
+     expect(frame.useCollisionPoly).toBe(true);
+-    expect(frame.collisionPoly).toEqual({ points: [] });
++    expect(frame.collisionPoly).toEqual({ points: [0, 0, 1, 0, 1, 1, 0, 1] });
+   });
+ 
+   it('createAnimationFrame includes imageSpriteId when provided', () => {
+diff --git a/test/tools/collision-poly.test.ts b/test/tools/collision-poly.test.ts
+new file mode 100644
+index 0000000..3d1311d
+--- /dev/null
++++ b/test/tools/collision-poly.test.ts
+@@ -0,0 +1,76 @@
++import { it, expect, beforeEach, afterEach } from 'vitest';
++import { cp, mkdtemp, readFile, writeFile, rm } from 'node:fs/promises';
++import { tmpdir } from 'node:os';
++import { join } from 'node:path';
++import { MockServer } from '../mocks/mock-server.js';
++import { Construct3ProjectReader } from '../../src/construct3/project-reader.js';
++import { Construct3ProjectWriter } from '../../src/construct3/project-writer.js';
++import { IdGenerator } from '../../src/construct3/id-generator.js';
++import { registerAnimationTools } from '../../src/tools/animation-tools.js';
++import { createSpriteObject, createTiledBgObject } from '../../src/construct3/templates.js';
++import { generatePlaceholderPng } from '../../src/construct3/png-generator.js';
++import { validateProjectIntegrity } from '../../src/construct3/analyzers/integrity.js';
++
++let dir: string;
++let reader: Construct3ProjectReader;
++const rectangle = [0, 0, 1, 0, 1, 1, 0, 1];
++beforeEach(async () => {
++  dir = await mkdtemp(join(tmpdir(), 'c3-collision-poly-'));
++  await cp(join(__dirname, '../fixtures/minimal-project'), dir, { recursive: true });
++  reader = new Construct3ProjectReader(join(dir, 'project.c3proj'));
++  await reader.loadProject();
++});
++afterEach(async () => { await rm(dir, { recursive: true, force: true }); });
++
++it('creates a rectangle and preserves it when importing a PNG', async () => {
++  const obj = createSpriteObject('Sprite', 200000000000001, 300000000000001, 123);
++  expect(obj.animations!.items[0].frames[0].collisionPoly!.points).toEqual(rectangle);
++  expect(createTiledBgObject('Tiles', 321).image!.collisionPoly!.points).toEqual(rectangle);
++  await writeFile(join(dir, 'objectTypes/Sprite.json'), JSON.stringify(obj));
++  reader.invalidateCaches();
++  const idGen = new IdGenerator();
++  const mock = new MockServer();
++  registerAnimationTools({ server: mock, reader, writer: new Construct3ProjectWriter(reader, idGen), idGen } as never);
++  const result = await mock.callTool('replace_sprite_image', { objectName: 'Sprite', animationName: 'Animation 1', frameIndex: 0,
++    pngBase64: generatePlaceholderPng(16, 32).toString('base64'), width: 16, height: 32 });
++  expect(result.isError).not.toBe(true);
++  const saved = JSON.parse(await readFile(join(dir, 'objectTypes/Sprite.json'), 'utf8'));
++  expect(saved.animations.items[0].frames[0].width).toBe(16);
++  expect(saved.animations.items[0].frames[0].height).toBe(32);
++  expect(saved.animations.items[0].frames[0].collisionPoly.points).toEqual(rectangle);
++  expect((await validateProjectIntegrity(reader)).errors.filter(e => e.check === 'collision-poly')).toEqual([]);
++});
++
++it.each([
++  [], [0, 0, 1, 1], [0, 0, 1, 0, 1, 1, 0],
++  [0, 0, '1', 0, 1, 1], [0, 0, null, 0, 1, 1],
++  [0, 0, 0, 0, 0, 0], [0, 0, 0.5, 0.5, 1, 1],
++])('rejects invalid polygon %j, including nested animation folders', async (...coords) => {
++  // Vitest spreads array test cases as arguments.
++  const obj = JSON.parse(await readFile(join(dir, 'objectTypes/Sprite.json'), 'utf8'));
++  const anim = obj.animations.items[0];
++  anim.frames[0].useCollisionPoly = true;
++  anim.frames[0].collisionPoly = { points: coords };
++  obj.animations = { items: [], subfolders: [{ name: 'Nested', items: [anim], subfolders: [] }] };
++  await writeFile(join(dir, 'objectTypes/Sprite.json'), JSON.stringify(obj));
++  reader.invalidateCaches();
++  const result = await validateProjectIntegrity(reader);
++  expect(result.valid).toBe(false);
++  expect(result.errors.some(e => e.check === 'collision-poly' && e.entity.endsWith('/frame:0'))).toBe(true);
++});
++
++it('allows an omitted default polygon but rejects an explicit empty polygon even when disabled', async () => {
++  const file = join(dir, 'objectTypes/Sprite.json');
++  const obj = JSON.parse(await readFile(file, 'utf8'));
++  const frame = obj.animations.items[0].frames[0];
++  frame.useCollisionPoly = true;
++  delete frame.collisionPoly;
++  await writeFile(file, JSON.stringify(obj));
++  reader.invalidateCaches();
++  expect((await validateProjectIntegrity(reader)).errors.filter(e => e.check === 'collision-poly')).toEqual([]);
++  frame.useCollisionPoly = false;
++  frame.collisionPoly = { points: [] };
++  await writeFile(file, JSON.stringify(obj));
++  reader.invalidateCaches();
++  expect((await validateProjectIntegrity(reader)).valid).toBe(false);
++});

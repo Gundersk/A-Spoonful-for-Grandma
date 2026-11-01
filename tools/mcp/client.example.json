@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "construct3": {
+      "command": "<ABSOLUTE_NODE_EXECUTABLE>",
+      "args": [
+        "<ABSOLUTE_REPO>/.local/tools/construct3-mcp/dist/index.js",
+        "<ABSOLUTE_REPO>/game"
+      ]
+    }
+  }
+}

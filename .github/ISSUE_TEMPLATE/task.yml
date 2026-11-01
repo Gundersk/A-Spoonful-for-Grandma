@@ -1,0 +1,22 @@
+name: Задача разработки или ошибка
+description: Согласовать изменение с проверяемым результатом
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Задача и границы
+      description: Что должно измениться, что не входит. Для бага — шаги и фактическое поведение.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Критерии приёмки
+      description: Как проверить в Construct, затронутые сцены/модули/графика.
+    validations:
+      required: true
+  - type: textarea
+    id: ownership
+    attributes:
+      label: Исполнитель и передача
+      description: Ветка/PR, владелец Layout/спрайта, следующий шаг. При остановке — ссылка на HANDOFF.

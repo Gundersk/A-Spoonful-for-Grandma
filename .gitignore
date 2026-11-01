@@ -1,0 +1,15 @@
+.local/
+.codex/
+dist/
+node_modules/
+*.bak
+*.log
+*.c3p
+*.uistate.json
+**/uistate/
+**/__pycache__/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
