@@ -11,3 +11,6 @@
 *.docx binary
 *.zip binary
 *.c3p binary
+
+# Preserve supplied reference text byte-for-byte, including original CRLF.
+art/references/**/*.txt -text
