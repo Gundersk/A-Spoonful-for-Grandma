@@ -31,3 +31,5 @@
 ## Публикация
 
 Исходники отправлены в main. GitHub Actions успешно выполнил Project checks: https://github.com/Gundersk/A-Spoonful-for-Grandma/actions/runs/41316803207 . Отдельный prerelease prototype-0.1.0-rc1 привязан к commit 1935208 и содержит чистый ZIP и .c3p. Issues1–3 фиксируют приёмку, книгу рецептов и инвентарь; новые механики не реализовывались. Репозиторий на момент подготовки публичный, это настройка владельца; локальные секреты/конфигурация не публиковались. CODEOWNERS указывает Gundersk как ревьюера.
+
+Защита main настроена отдельно через GitHub API: PR + 1 approval + CODEOWNERS + обязательный project check; force-push/удаление запрещены. Администратор имеет bypass (enforce_admins=false). Это не абсолютный запрет владельцу обходить правила.
