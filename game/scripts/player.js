@@ -17,9 +17,11 @@ export class Player {
       const directions = ['E','SE','S','SW','W','NW','N','NE'];
       this.facing = directions[(Math.round(Math.atan2(vy,vx) / (Math.PI/4)) + 8) % 8];
     }
-    let name = `${carrying ? 'carry_' : ''}${moving ? 'walk' : 'idle'}_${this.facing}`;
+    // Both upper carrying diagonals share one source; NE mirrors NW below.
+    const animationFacing = carrying && moving && this.facing === 'NE' ? 'NW' : this.facing;
+    let name = `${carrying ? 'carry_' : ''}${moving ? 'walk' : 'idle'}_${animationFacing}`;
     const generated = moving && (['W','E','SW','SE'].includes(this.facing)
-      || (carrying && this.facing === 'S'));
+      || (carrying && ['S', 'NW', 'NE'].includes(this.facing)));
     if (generated) name += '_generated';
     // E mirrors the new W, NE mirrors NW, SE mirrors the new SW.
     // scripting property: mirror its native world-instance width instead.
