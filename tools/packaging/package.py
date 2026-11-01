@@ -1,10 +1,14 @@
 """Build a native c3p plus player README, no AI/tool/project-management files."""
 from pathlib import Path
-import argparse, hashlib, json, re, zipfile
+import argparse, hashlib, json, re, zipfile, subprocess
 root=Path(__file__).resolve().parents[2]
 parser=argparse.ArgumentParser();parser.add_argument('--version',required=True);args=parser.parse_args()
 if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',args.version):parser.error('Use a simple version label')
 game=root/'game';out=root/'dist'/('OneMoreSpoon_'+args.version);out.mkdir(parents=True,exist_ok=True)
+try:
+ source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True,stderr=subprocess.DEVNULL).strip()
+except (subprocess.CalledProcessError,FileNotFoundError):
+ source_commit='не определён (исходники без Git)'
 allowed={'scripts','objectTypes','layouts','eventSheets','images','icons','flowcharts','timelines'}
 files=[]
 for p in sorted(game.rglob('*')):
@@ -21,7 +25,7 @@ with zipfile.ZipFile(archive) as z:
  assert not any(x in n.lower() for n in z.namelist() for x in ('agents.md','llm-context','.codex','.bak','node_modules'))
 (out/'README.md').write_text('''# Ложечку за бабушку — минипрототип ER-Studio
 
-Версия пакета: '''+args.version+'''. Открыть OneMoreSpoon.c3p в Construct 3 и запустить Preview. Исходная версия редактора r506.3. Это редактируемый проект, не автономный exe. Для запуска Node.js, MCP и инструменты ИИ не требуются.
+Версия пакета: '''+args.version+'''. Исходный commit: '''+source_commit+'''. При сборке с незакоммиченными изменениями commit указывает только базу; перед официальным выпуском рабочая папка должна быть чистой. Открыть OneMoreSpoon.c3p в Construct 3 и запустить Preview. Исходная версия редактора r506.3. Это редактируемый проект, не автономный exe. Для запуска Node.js, MCP и инструменты ИИ не требуются.
 
 ## Управление
 
