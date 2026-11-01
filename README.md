@@ -20,6 +20,7 @@
 
 ## Для команды
 
+- Доступ к GitHub для человека и агента: [GIT_AGENT_ACCESS](docs/GIT_AGENT_ACCESS.md), настройка локального/облачного вариантов и разрешение на commit/push/PR.
 - Разработчик: [SETUP](docs/SETUP.md), [ARCHITECTURE](docs/ARCHITECTURE.md), [WORKFLOW](docs/WORKFLOW.md).
 - ИИ-агент: начать с [AGENTS.md](AGENTS.md), работать из корня репозитория; целевой проект — `game/`.
 - Дизайнер: [DESIGNER](docs/DESIGNER.md), [ASSETS](docs/ASSETS.md), [предложения графики](art/proposals/README.md).
