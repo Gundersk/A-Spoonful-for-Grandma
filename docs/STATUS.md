@@ -23,3 +23,11 @@
 ## Передача работы
 
 Рабочее место: корень репозитория; проект `game/`; установка инструментов MCP_SETUP.md. ИИ начинает с AGENTS.md. Незавершённые задачи оставлять в ветке с HANDOFF. В каждой следующей игровой правке обновлять этот файл и CHANGELOG, а связанные реестры — в том же коммите. Git показывает автора/время; PR содержит проверки и список известных проблем.
+
+## Задачи в GitHub
+
+- [Приёмка кандидата](https://github.com/Gundersk/A-Spoonful-for-Grandma/issues/1).
+- [Книга рецептов](https://github.com/Gundersk/A-Spoonful-for-Grandma/issues/2).
+- [Инвентарь](https://github.com/Gundersk/A-Spoonful-for-Grandma/issues/3).
+
+Кандидат: [prototype-0.1.0-rc1](https://github.com/Gundersk/A-Spoonful-for-Grandma/releases/tag/prototype-0.1.0-rc1), исходный commit 1935208. Это не подтверждённая приёмка.
