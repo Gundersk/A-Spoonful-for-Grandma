@@ -4,7 +4,7 @@
 
 ## Как читать бабушкины анимации
 
-Руки вверх (`carry_`) означают перенос предмета над головой. Отдельный PotVisual рисуется кодом, не должен быть впечён в фигуру. При ходьбе W/E/SW/SE выбираются *_generated: 4 кадра, 8 кадров/с. E зеркалит W, SE зеркалит SW, NE зеркалит NW через отрицательную width в player.js; не рисовать зеркальную пару независимо. Остальные направления и idle сохраняют собственные исходные наборы. Старые walk/carry_walk W/E/SW/SE без generated архивные и при ходьбе не используются. Метка «исходный» ниже не означает неиспользуемый: N/S/NW и idle активны.
+Руки вверх (`carry_`) означают перенос предмета над головой. Отдельный PotVisual рисуется кодом, не должен быть впечён в фигуру. При ходьбе W/E/SW/SE выбираются *_generated: 4 кадра, 8 кадров/с. E зеркалит W, SE зеркалит SW, NE зеркалит NW через отрицательную width в player.js; не рисовать зеркальную пару независимо. Для переноски вниз используется carry_walk_S_generated: 4 новых цельных кадра, 8 кадров/с; обычный walk_S и carry_idle_S сохранены. Старый carry_walk_S (один кадр покоя) архивный. Переноска NW и NE использует один carry_walk_NW_generated (4 кадра, 8fps); NE зеркалится в движке, отдельной NE_generated нет. Старые carry_walk_NW/NE архивные. Обычная ходьба по верхним диагоналям и idle сохранены. Остальные направления и idle сохраняют собственные исходные наборы. Старые walk/carry_walk W/E/SW/SE без generated архивные и при ходьбе не используются. Метка «исходный» ниже не означает неиспользуемый: N/S/NW и idle активны.
 
 ## Sprite и кадры
 
@@ -76,17 +76,17 @@
 | carry_idle_NE | 0 | game/images/grandma-carry_idle_ne-000.png | 256×320 | 0.5, 0.95 | 0 / false | исходный |
 | carry_idle_E | 0 | game/images/grandma-carry_idle_e-000.png | 256×320 | 0.5, 0.95 | 0 / false | исходный |
 | carry_idle_SE | 0 | game/images/grandma-carry_idle_se-000.png | 256×320 | 0.5, 0.95 | 0 / false | исходный |
-| carry_walk_S | 0 | game/images/grandma-carry_walk_s-000.png | 256×320 | 0.5, 0.95 | 0 / false | исходный |
+| carry_walk_S | 0 | game/images/grandma-carry_walk_s-000.png | 256×320 | 0.5, 0.95 | 0 / false | архивный |
 | carry_walk_SW | 0 | game/images/grandma-carry_walk_sw-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_SW | 1 | game/images/grandma-carry_walk_sw-001.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_W | 0 | game/images/grandma-carry_walk_w-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_W | 1 | game/images/grandma-carry_walk_w-001.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
-| carry_walk_NW | 0 | game/images/grandma-carry_walk_nw-000.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
-| carry_walk_NW | 1 | game/images/grandma-carry_walk_nw-001.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
+| carry_walk_NW | 0 | game/images/grandma-carry_walk_nw-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
+| carry_walk_NW | 1 | game/images/grandma-carry_walk_nw-001.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_N | 0 | game/images/grandma-carry_walk_n-000.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
 | carry_walk_N | 1 | game/images/grandma-carry_walk_n-001.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
-| carry_walk_NE | 0 | game/images/grandma-carry_walk_ne-000.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
-| carry_walk_NE | 1 | game/images/grandma-carry_walk_ne-001.png | 256×320 | 0.5, 0.95 | 6 / true | исходный |
+| carry_walk_NE | 0 | game/images/grandma-carry_walk_ne-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
+| carry_walk_NE | 1 | game/images/grandma-carry_walk_ne-001.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_E | 0 | game/images/grandma-carry_walk_e-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_E | 1 | game/images/grandma-carry_walk_e-001.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
 | carry_walk_SE | 0 | game/images/grandma-carry_walk_se-000.png | 256×320 | 0.5, 0.95 | 6 / true | архивный |
@@ -127,6 +127,14 @@
 | carry_walk_SE_generated | 1 | game/images/grandma-carry_walk_se_generated-001.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
 | carry_walk_SE_generated | 2 | game/images/grandma-carry_walk_se_generated-002.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
 | carry_walk_SE_generated | 3 | game/images/grandma-carry_walk_se_generated-003.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_S_generated | 0 | game/images/grandma-carry_walk_s_generated-000.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_S_generated | 1 | game/images/grandma-carry_walk_s_generated-001.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_S_generated | 2 | game/images/grandma-carry_walk_s_generated-002.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_S_generated | 3 | game/images/grandma-carry_walk_s_generated-003.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_NW_generated | 0 | game/images/grandma-carry_walk_nw_generated-000.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_NW_generated | 1 | game/images/grandma-carry_walk_nw_generated-001.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_NW_generated | 2 | game/images/grandma-carry_walk_nw_generated-002.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
+| carry_walk_NW_generated | 3 | game/images/grandma-carry_walk_nw_generated-003.png | 256×320 | 0.5, 0.95 | 8 / true | активный новый |
 
 ### PantryZone
 
